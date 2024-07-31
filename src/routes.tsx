@@ -1,5 +1,4 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Perfil from "./pages/Perfil";
 import Home from "./pages/Home";
 import RestaurantProfile from './Components/RestaurantProfile'
 

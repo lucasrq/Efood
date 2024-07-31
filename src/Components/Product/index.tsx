@@ -15,7 +15,7 @@ export type Props = {
 }
 
 
-const Product = ({category2,children,image, infos,title, category, nota,id}:Props) => (
+const Product = ({category2,image, infos,title, category, nota,id}:Props) => (
     <Card>
         <ContainerTag>
             <Tag size="Big">{category2}</Tag>
