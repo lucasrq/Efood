@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom"
 import Tag from "../Tag"
 import {Restaurante,Botao,ContainerTag, Card, CardBorder, Titulo, Nota, Estrela,CardNota, Paragraph} from './style'
-
+import EstrelaB from '../../../public/img/estrela.png'
 
 export type Props = {
     id: number 
@@ -27,7 +27,7 @@ const Product = ({category2,image, infos,title, category, nota,id}:Props) => (
                 <Titulo>{title}</Titulo>
                 <div>
                     <Nota>{nota}</Nota>
-                    <Estrela src='../../public/img/estrela.png'/>
+                    <Estrela src={EstrelaB}/>
                 </div>
             </CardNota>
         <Paragraph>
