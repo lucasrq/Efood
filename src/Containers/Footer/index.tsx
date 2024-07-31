@@ -1,13 +1,16 @@
 import { Container,ContainerImg,SocialMidia,Logo, ContainerTitle} from "./style"
-
+import SocialInst from '../../../public/img/insta.png'
+import SocialFece from '../../../public/img/fece.png'
+import SocialTT from '../../../public/img/tt.png'
+import Efood from '../../../public/img/Logo.png'
 const Footer = () =>(
      <Container>
         <ContainerImg>
-            <Logo src="../../public/img/Logo.png" />
+            <Logo src={Efood} />
             <div>
-                <SocialMidia src="../../public/img/insta.png" />
-                <SocialMidia src="../../public/img/fece.png" />
-                <SocialMidia src="../../public/img/tt.png" />
+                <SocialMidia src={SocialInst} />
+                <SocialMidia src={SocialFece} />
+                <SocialMidia src={SocialTT} />
             </div>
         </ContainerImg>
         <ContainerTitle>
