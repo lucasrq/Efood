@@ -21,12 +21,12 @@ export const Restaurante = styled.img`
 export const ContainerTag = styled.div`
     div:nth-child(1) {
         position:absolute;
-        left:198px;
+        left:300px;
         top:20px;
     }
     div:nth-child(2) {
         position:absolute;
-        left:370px;
+        left:470px;
         top:20px;
     }
 
@@ -72,4 +72,9 @@ export const Botao = styled.button`
     padding:6px;
     margin-left:8px;
     margin-bottom:8px;
+    text-decoration:none;
+    color:#fff;
+    a{
+        text-decoration:none;
+    }
 `
