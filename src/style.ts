@@ -8,7 +8,7 @@ export const GlobalStyle = createGlobalStyle`
         box-sizing:border-box;
     }
     body{
-        background-color:#fff9f2;
+        background-color:#fff8f2;
     }
 `;
 

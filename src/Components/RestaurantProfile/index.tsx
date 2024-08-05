@@ -4,6 +4,7 @@ import Prato from  '../../../public/img/Prato.png'
 import { Botao, ClosePop, Container, ContainerBotao, ContainerGrid, ContainerList, ContainerPop, ContentPop, Imagens, Modal, Paragrafo, Title } from "./style";
 import Footer from "../../Containers/Footer";
 import Close from '../../../public/img/close.png'
+import { useState } from "react";
 
 const RestaurantProfile = () => {
     const { id } = useParams<{ id: string }>();
@@ -91,6 +92,12 @@ const RestaurantProfile = () => {
         return <h1>Restaurante não encontrado</h1>;
     }
 
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const [modalAberto, SetModalAberto] = useState(false)
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const [modalUrl, SetModalUrl] = useState(0)
+
+
     return (
         <>
             <PerfilHeader />
@@ -103,8 +110,14 @@ const RestaurantProfile = () => {
                             {restaurantForm?.sobre[dishIndex] && (
                                 <Paragrafo>{restaurantForm.sobre[dishIndex]}</Paragrafo>
                             )}
-                            <ContainerBotao>
-                                <Botao>Adicionar no carrinho</Botao>
+                            <ContainerBotao key={dishIndex}>
+                            {restaurantForm?.sobre[dishIndex] && (
+                                <Botao onClick={()=> {
+                                    SetModalAberto(true);
+                                    SetModalUrl(dishIndex)
+                                    console.log(SetModalUrl)
+                                }}>Adicionar no carrinho</Botao>
+                            )}
                             </ContainerBotao>
                             
                         </ContainerList>
@@ -112,25 +125,33 @@ const RestaurantProfile = () => {
                 </ContainerGrid>
             </Container>
             <Footer/>
-
-            <Modal>
-                <ContainerPop>
-                   <div className="img">
-                    <img src={Prato} />
-                   </div>
-                   <ContentPop>
-                    <h4>Pizza bolonhesa </h4>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint rem eos praesentium deserunt saepe reprehenderit deleniti cupiditate. Provident consequatur natus dolorem, illo ullam maxime quidem molestiae, suscipit reprehenderit, eum nam.</p>
-
-                    <span>serve 2 pessoas 1</span>
-                    <button>Adicionar ao carrinho - R$50,90</button>
-                   </ContentPop>
-                   <ClosePop>
-                    <img src={Close}  />
-                   </ClosePop>
-                </ContainerPop>
-                <div className="overlay"></div>
+{modalAberto &&(
+            <Modal className={modalAberto ? 'visivel' : ''}>
+            <ContainerPop> 
+                    <>
+                        <div className="img" >
+                        <img src={Prato} />
+                        </div>
+                        <ContentPop>
+                        <h4>{restaurant.dishes[modalUrl]}</h4>
+                        {restaurantForm?.sobre[modalUrl]&& (
+                            <p>{restaurantForm.sobre[modalUrl]}</p>
+                        )}
+                        <span>serve 2 pessoas 1</span>
+                        <button>Adicionar ao carrinho - R$50,90</button>
+                    </ContentPop>
+                    <ClosePop>
+                    <img onClick={()=> {
+                        SetModalAberto(false)
+                        SetModalUrl(0)
+                    }} src={Close} />
+                    </ClosePop>
+                </>
+            
+            </ContainerPop>
+            <div className="overlay"></div>
             </Modal>
+        )}
         </>
     );
 }

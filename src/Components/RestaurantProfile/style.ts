@@ -101,6 +101,7 @@ export const ContentPop = styled.div`
         padding:3px;
         font-size:14px;
         font-weight:bold;
+        cursor: pointer;
         background-color:#ffebd9;
     }
 `
@@ -110,6 +111,7 @@ export const ClosePop = styled.div`
         width:20px;
         cursor: pointer;
     }
+    
 `
 
 export const Modal = styled.div`
@@ -121,6 +123,10 @@ export const Modal = styled.div`
     display:none;
     align-items:center;
     justify-content:center;
+
+    &.visivel{
+        display:flex;
+    }
     .overlay{
         position: absolute;
         top:0;
