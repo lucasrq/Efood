@@ -1,8 +1,9 @@
 import { useParams } from "react-router-dom";
 import PerfilHeader from '../../Containers/HeaderCompras/Header';
 import Prato from  '../../../public/img/Prato.png'
-import { Botao, Container, ContainerBotao, ContainerGrid, ContainerList, Imagens, Paragrafo, Title } from "./style";
+import { Botao, ClosePop, Container, ContainerBotao, ContainerGrid, ContainerList, ContainerPop, ContentPop, Imagens, Modal, Paragrafo, Title } from "./style";
 import Footer from "../../Containers/Footer";
+import Close from '../../../public/img/close.png'
 
 const RestaurantProfile = () => {
     const { id } = useParams<{ id: string }>();
@@ -111,6 +112,25 @@ const RestaurantProfile = () => {
                 </ContainerGrid>
             </Container>
             <Footer/>
+
+            <Modal>
+                <ContainerPop>
+                   <div className="img">
+                    <img src={Prato} />
+                   </div>
+                   <ContentPop>
+                    <h4>Pizza bolonhesa </h4>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint rem eos praesentium deserunt saepe reprehenderit deleniti cupiditate. Provident consequatur natus dolorem, illo ullam maxime quidem molestiae, suscipit reprehenderit, eum nam.</p>
+
+                    <span>serve 2 pessoas 1</span>
+                    <button>Adicionar ao carrinho - R$50,90</button>
+                   </ContentPop>
+                   <ClosePop>
+                    <img src={Close}  />
+                   </ClosePop>
+                </ContainerPop>
+                <div className="overlay"></div>
+            </Modal>
         </>
     );
 }

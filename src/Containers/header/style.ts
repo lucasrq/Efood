@@ -22,5 +22,6 @@ export const Container = styled.header`
         width:45%;
         text-align:center;
         margin:0 auto;
+        font-family:Roboto;
     }
 `

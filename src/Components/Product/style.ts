@@ -3,11 +3,11 @@ import styled from "styled-components";
 export const Card = styled.section`
     margin-top:80px;
     position:relative;
-    max-width:600px;
-    min-height:400px;
-    border-left:3px solid #e66767;
-    border-right:3px solid #e66767;
-    border-bottom:3px solid #e66767;
+    max-width:472px;
+    min-height:398px;
+    border-left:1px solid #e66767;
+    border-right:1px solid #e66767;
+    border-bottom:1px solid #e66767;
 `
 export const CardBorder = styled.section`
    
@@ -21,12 +21,12 @@ export const Restaurante = styled.img`
 export const ContainerTag = styled.div`
     div:nth-child(1) {
         position:absolute;
-        left:300px;
+        left:188px;
         top:20px;
     }
     div:nth-child(2) {
         position:absolute;
-        left:470px;
+        left:360px;
         top:20px;
     }
 
@@ -38,6 +38,7 @@ export const Titulo = styled.h3`
     font-weight:700;
     line-height:21px;
     margin:8px;
+    font-family:Roboto;
 `
 export const CardNota = styled.div`
     display:flex;
@@ -50,6 +51,7 @@ export const Nota = styled.span`
     color: #e66767;
     font-weight:700;
     margin-right: 7px;
+    font-family:Roboto;
 `
 export const Estrela = styled.img`
     width:21px;
@@ -57,13 +59,14 @@ export const Estrela = styled.img`
 `
 
 export const Paragraph = styled.p`
-    width:456px;
+    width:452px;
     height:88px;
-    font-weight:800;
+    font-weight:400;
     font-size:14px;
     line-height:22px;
     color:#e66767;
-    margin:5px;
+    margin:6px;
+    font-family:Roboto;
 `
 
 export const Botao = styled.button`
@@ -71,10 +74,13 @@ export const Botao = styled.button`
     background-color:#e66767;
     padding:6px;
     margin-left:8px;
+    border:none;
     margin-bottom:8px;
     text-decoration:none;
     color:#fff;
+    font-family:Roboto;
     a{
         text-decoration:none;
+        color:#fff;
     }
 `

@@ -36,6 +36,7 @@ export const ContainerTitle = styled.div`
     display:flex;
     justify-content:center;
     color:#e66767;
+    font-family:Roboto;
     margin-bottom:40px;
     width:800px;
     margin:0 auto;
