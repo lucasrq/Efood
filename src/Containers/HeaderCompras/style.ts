@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import Fundo from "../../../public/img/fundo.png"
-import ImgFundo from '../../../public/img/a.png'
+
 
 export const Container = styled.header`
     background-image: url(${Fundo});
@@ -24,16 +24,5 @@ export const Container = styled.header`
     }
 `
 
-export const Apresentacao = styled.div`
-    width:100%;
-    background-image:url(${ImgFundo});
-    background-repeat:no-repeat;
-    background-size:cover;
-    height:370px;
-`
 
-export const ContainerRestaurantes = styled.div`
-    margin:0 auto;
-    width:50%;
-`
 

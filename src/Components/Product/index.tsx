@@ -2,42 +2,46 @@ import { Link } from "react-router-dom"
 import Tag from "../Tag"
 import {Restaurante,Botao,ContainerTag, Card, CardBorder, Titulo, Nota, Estrela,CardNota, Paragraph} from './style'
 import NotaEstrela from '../../../public/img/estrela.png'
-
+import { RestaurantersApi } from "../ProductList"
 export type Props = {
-    id: number 
-    image: string;
-    infos: string;
-    title: string;
-    category: string;
-    nota: string;
-    category2?: string;
-    children?: string;
+    restaurantes: RestaurantersApi[]; 
 }
-
-
-const Product = ({category2,image, infos,title, category, nota,id}:Props) => (
-    <Card>
+const Product = ({restaurantes}:Props) => {
+const getDescript = (descricao: string) => {
+        if (descricao.length > 39) {
+            return descricao.slice(0, 200) + '...';
+        }
+        return descricao;
+    };
+    return (
+        <>
+        {restaurantes.map((restaurante, index)=>(
+            <Card key={index}>
         <ContainerTag>
-            <Tag size="Big">{category2}</Tag>
-            <Tag size="Big">{category}</Tag>
+            <Tag size="Big">{restaurante.destacado}</Tag>
+            <Tag size="Big">{restaurante.tipo}</Tag>
         </ContainerTag>
-        <Restaurante src={image}/>
+        <Restaurante src={restaurante.capa}/>
         <CardBorder>
             <CardNota>
-                <Titulo>{title}</Titulo>
+                <Titulo>{restaurante.titulo}</Titulo>
                 <div>
-                    <Nota>{nota}</Nota>
+                    <Nota>{restaurante.avaliacao}</Nota>
                     <Estrela src={NotaEstrela}/>
                 </div>
             </CardNota>
         <Paragraph>
-            {infos}
+            {getDescript(restaurante.descricao)}
         </Paragraph>
         <Botao>
-            <Link to={`/Perfil/${id}`}>Saiba Mais</Link>
+            <Link to={`/Perfil/${restaurante.id}`}>Saiba Mais</Link>
         </Botao>
         </CardBorder>
-    </Card>
-)
+        </Card>
+        ))}
+    </>
+    )
+    
+}
 
 export default Product

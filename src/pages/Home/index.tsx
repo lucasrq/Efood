@@ -4,7 +4,7 @@ import HomeHeader from "../../Containers/header/Header"
 import ProcutsList from "../../Components/ProductList"
 import Footer from "../../Containers/Footer"
 
-function Home(){
+const Home =  () => {
     return (
         <>
            <GlobalStyle/> 
@@ -16,5 +16,6 @@ function Home(){
         </>
       )
 }
+
 
 export default Home

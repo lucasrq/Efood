@@ -34,6 +34,7 @@ export const Container = styled.div`
 export const Paragrafo = styled.p`
     color:#fff;
     padding:8px;
+    margin:3px;
     min-height:88px;
     font-size:14px;
     font-family:Roboto;
@@ -57,17 +58,18 @@ export const ContainerBotao = styled.div`
 export const ContainerPop = styled.div`
     display:flex;
     margin:0 auto;
+    justify-content:space-between;
     background-color:#E66767;
     max-width:1100px;
     padding:30px;
     margin-bottom:200px;
     max-height:387px;
-    position:relative;
     z-index:1;
     .img{
-        img{
+        display:flex;
+       > img{
         width:100%;
-        min-width:400px;
+        max-width:400px;
         padding-right:32px;
     }
     }
@@ -107,8 +109,9 @@ export const ContentPop = styled.div`
 `
 
 export const ClosePop = styled.div`
-    img{
-        width:20px;
+    > img{
+        width:100%;
+        max-width:100px;
         cursor: pointer;
     }
     
