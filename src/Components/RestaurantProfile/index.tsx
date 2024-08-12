@@ -21,7 +21,7 @@ import { useDispatch } from "react-redux";
 import { add, open } from "../../store/reducers/cart";
 import Apresentacao from "../Apresentacao";
 
-// Defina os tipos necessários
+
 interface CardapioItem {
     id: number;
     foto: string;
@@ -51,7 +51,7 @@ interface RestaurantersApi {
 }
 
 interface RestaurantProfileProps {
-    restaurantes: RestaurantersApi[]; // Adicione a propriedade aqui
+    restaurantes: RestaurantersApi[]; 
 }
 
 const RestaurantProfile: React.FC<RestaurantProfileProps> = ({ restaurantes }) => {
@@ -62,17 +62,15 @@ const RestaurantProfile: React.FC<RestaurantProfileProps> = ({ restaurantes }) =
     const [modalAberto, setModalAberto] = useState(false);
     const [modalUrl, setModalUrl] = useState<number | null>(null);
     
-    // Verifique se restaurantes é um array
+    
     if (!Array.isArray(restaurantes)) {
         return <h1>Dados de restaurantes não estão disponíveis</h1>;
     }
 
-    // Encontre o restaurante correspondente usando filter
     const filteredRestaurants = restaurantes.filter((r): r is Restaurante => r.id === restaurantId);
     
-    const restaurant = filteredRestaurants[0]; // Acesse o primeiro restaurante encontrado
-
-    // Verifique se o restaurante existe
+    const restaurant = filteredRestaurants[0];
+   
     if (!restaurant) {
         return <h1>Restaurante não encontrado</h1>;
     }

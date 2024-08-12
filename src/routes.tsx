@@ -4,10 +4,10 @@ import RestaurantProfile from './Components/RestaurantProfile';
 import { RestaurantersApi } from "./Components/ProductList";
 
 type AppRoutesProps = {
-    restaurantes: RestaurantersApi[]; // Ajuste para o tipo correto
+    restaurantes: RestaurantersApi[]; 
 };
 
-function AppRoutes({ restaurantes }: AppRoutesProps) { // Adiciona a tipagem aqui
+function AppRoutes({ restaurantes }: AppRoutesProps) { 
     return (
         <BrowserRouter>
             <Routes>

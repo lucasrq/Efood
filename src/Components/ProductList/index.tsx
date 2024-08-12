@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import Product from "../Product";
 import { Container, List } from "./style";
 
-// Interfaces
 export interface CardapioItem {
     id: number;
     foto: string;
@@ -17,10 +16,10 @@ export interface RestaurantersApi {
     tipo: string;
     titulo: string;
     destacado?: boolean;
-    descricao: string; // Descrição como obrigatória
-    avaliacao?: number; // Propriedade opcional
-    capa?: string; // Propriedade opcional
-    cardapio: CardapioItem[]; // Permite que seja um array de CardapioItem
+    descricao: string; 
+    avaliacao?: number; 
+    capa?: string; 
+    cardapio: CardapioItem[]; 
 }
 
 const ProductsList = () => {
