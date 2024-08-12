@@ -12,19 +12,17 @@ const Cart = () => {
     const restaurantId = parseInt(id || "0");
     const { isOpen, items } = useSelector((state: RootReducer) => state.cart);
     const dispatch = useDispatch();
-    
-    // Corrigindo o tipo de retorno da query
-    const { data: restaurantes = [] } = useGetFeatureRestQuery<RestaurantersApi[]>();
-    
-    const CloseCart = () => {
-        dispatch(close());
-    };
 
-    // Criar um mapa de restaurantes com tipagem adequada
-    const restaurantMap = restaurantes.reduce<Record<number, RestaurantersApi>>((map, restaurant) => {
-        map[restaurant.id] = restaurant;
-        return map;
-    }, {});
+    // Obtém os dados dos restaurantes
+    const { data: restaurantes } = useGetFeatureRestQuery<RestaurantersApi[]>();
+    
+    // Cria um mapa de restaurantes
+    const restaurantMap = Array.isArray(restaurantes) 
+        ? restaurantes.reduce<Record<number, RestaurantersApi>>((map, restaurant) => {
+              map[restaurant.id] = restaurant;
+              return map;
+          }, {}) 
+        : {}; // Se não for um array, retorna um objeto vazio
 
     const restaurant = restaurantMap[restaurantId];
 
@@ -36,7 +34,7 @@ const Cart = () => {
 
     const getTotalPrice = () => {
         return items.reduce((acumulador, item) => {
-            const prato = cardapio.find(c => c.id === item.id); // Mudando para o find aqui
+            const prato = cardapio.find(c => c.id === item.id); // Usar find aqui
             return prato ? acumulador + prato.preco : acumulador;
         }, 0).toFixed(2);
     };
@@ -47,11 +45,11 @@ const Cart = () => {
 
     return (
         <DisplayNone className={isOpen ? 'visivel' : ''}>
-            <Overlay onClick={CloseCart}></Overlay>  
+            <Overlay onClick={() => dispatch(close())}></Overlay>  
             <ContainerPop>
                 <ul>
                     {items.map((item) => {
-                        const prato = cardapio.find(c => c.id === item.id); // Mudando para o find aqui
+                        const prato = cardapio.find(c => c.id === item.id); // Usar find aqui
                         return prato ? (
                             <li key={item.id}>
                                 <ContainerPrato>
