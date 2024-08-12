@@ -13,8 +13,8 @@ const Cart = () => {
     const { isOpen, items } = useSelector((state: RootReducer) => state.cart);
     const dispatch = useDispatch();
 
-    // Obtém os dados dos restaurantes
-    const { data: restaurantes } = useGetFeatureRestQuery<RestaurantersApi[]>();
+    // Ajustar a tipagem para garantir que `data` seja do tipo correto
+    const { data: restaurantes } = useGetFeatureRestQuery(); // Certifique-se de que useGetFeatureRestQuery esteja tipado corretamente
     
     // Cria um mapa de restaurantes
     const restaurantMap = Array.isArray(restaurantes) 
@@ -34,7 +34,7 @@ const Cart = () => {
 
     const getTotalPrice = () => {
         return items.reduce((acumulador, item) => {
-            const prato = cardapio.find(c => c.id === item.id); // Usar find aqui
+            const prato = cardapio.find(c => c.id === item.id); // Acessa diretamente usando o ID
             return prato ? acumulador + prato.preco : acumulador;
         }, 0).toFixed(2);
     };
@@ -49,7 +49,7 @@ const Cart = () => {
             <ContainerPop>
                 <ul>
                     {items.map((item) => {
-                        const prato = cardapio.find(c => c.id === item.id); // Usar find aqui
+                        const prato = cardapio.find(c => c.id === item.id); // Acessa diretamente usando o ID
                         return prato ? (
                             <li key={item.id}>
                                 <ContainerPrato>
