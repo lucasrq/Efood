@@ -12,7 +12,7 @@ function AppRoutes({ restaurantes }: AppRoutesProps) { // Adiciona a tipagem aqu
         <BrowserRouter>
             <Routes>
                 <Route path='/' element={<Home />} />
-                <Route path='/Perfil/:id'  element={<RestaurantProfile restaurantes={restaurantes} />}  />
+                <Route path='/Perfil/:id' element={<RestaurantProfile restaurantes={restaurantes} />} />
             </Routes>
         </BrowserRouter>
     );
