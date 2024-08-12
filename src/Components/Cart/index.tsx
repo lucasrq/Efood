@@ -13,19 +13,20 @@ const Cart = () => {
     const { isOpen, items } = useSelector((state: RootReducer) => state.cart);
     const dispatch = useDispatch();
     
-    const { data: restaurantes } = useGetFeatureRestQuery<RestaurantersApi[]>();
+    // Corrigindo o tipo de retorno da query
+    const { data: restaurantes = [] } = useGetFeatureRestQuery<RestaurantersApi[]>();
     
     const CloseCart = () => {
         dispatch(close());
     };
 
-    // Criar um mapa de restaurantes
-    const restaurantMap = restaurantes?.reduce((map, restaurant) => {
+    // Criar um mapa de restaurantes com tipagem adequada
+    const restaurantMap = restaurantes.reduce<Record<number, RestaurantersApi>>((map, restaurant) => {
         map[restaurant.id] = restaurant;
         return map;
-    }, {} as Record<number, RestaurantersApi>);
+    }, {});
 
-    const restaurant = restaurantMap ? restaurantMap[restaurantId] : undefined;
+    const restaurant = restaurantMap[restaurantId];
 
     if (!restaurant) {
         return <h1>Restaurante não encontrado</h1>;
@@ -35,7 +36,7 @@ const Cart = () => {
 
     const getTotalPrice = () => {
         return items.reduce((acumulador, item) => {
-            const prato = cardapio[item.id]; // Acessar diretamente usando o ID
+            const prato = cardapio.find(c => c.id === item.id); // Mudando para o find aqui
             return prato ? acumulador + prato.preco : acumulador;
         }, 0).toFixed(2);
     };
@@ -50,7 +51,7 @@ const Cart = () => {
             <ContainerPop>
                 <ul>
                     {items.map((item) => {
-                        const prato = cardapio[item.id]; // Acessar diretamente usando o ID
+                        const prato = cardapio.find(c => c.id === item.id); // Mudando para o find aqui
                         return prato ? (
                             <li key={item.id}>
                                 <ContainerPrato>
