@@ -1,7 +1,9 @@
+import { Provider } from "react-redux";
 import { useEffect, useState } from "react";
 import AppRoutes from './routes';
 import { GlobalStyle } from './style';
 import { RestaurantersApi } from "./Components/ProductList";
+import { store } from "./store";
 
 function App() {
     const [restaurantes, setRestaurantes] = useState<RestaurantersApi[]>([]);
@@ -14,8 +16,10 @@ function App() {
 
     return (
         <>
+        <Provider store={store}>
             <GlobalStyle />
             <AppRoutes restaurantes={restaurantes} /> {/* Passando restaurantes aqui */}
+        </Provider>
         </>
     );
 }

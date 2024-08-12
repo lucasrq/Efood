@@ -9,8 +9,6 @@ const Apresentacao =({titulo, subtitulo} : Props) =>{
     return(
         <Slid>
             <Container>
-
-           
                 <h1>
                     {titulo}
                 </h1>

@@ -7,7 +7,8 @@ export const Container = styled.header`
     height:184px;
     display:flex;
     justify-content:space-around;
-    img{
+    
+    > img{
         margin-top:64px;
         width:125px;
         height:58px;
@@ -20,7 +21,21 @@ export const Container = styled.header`
         font-weight:900;
         width:45%;
         text-align:center;
-        margin:0 auto;
+        font-family:Roboto;
+        margin:0 auto; 
+        font-size:18px;
+   }
+`
+
+export const ModalContainer = styled.div`
+    display: none;
+
+    img{
+        width:80px;
+        margin-top:8px;
+    }
+    &.visivel{
+        display:flex;
     }
 `
 
