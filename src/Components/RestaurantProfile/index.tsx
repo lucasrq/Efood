@@ -40,11 +40,29 @@ interface Restaurante {
     cardapio: CardapioItem[];
 }
 
+// Defina o tipo esperado pela ação add
+interface RestaurantersApi {
+    id: number;
+    tipo: string;
+    titulo: string;
+    descricao: string; // Adicionando a descrição como obrigatória
+    avaliacao?: number; // Propriedade opcional
+    capa?: string; // Propriedade opcional
+    cardapio: CardapioItem[];
+}
+
+// Defina o tipo de retorno do hook
+interface GetFeatureRestResponse {
+    data: Restaurante[];
+    isLoading: boolean;
+    error: unknown;
+}
+
 const RestaurantProfile = () => {
     const { id } = useParams<{ id: string }>();
     const restaurantId = parseInt(id || "0");
     
-    const { data: restaurantes = [], isLoading, error } = useGetFeatureRestQuery();
+    const { data: restaurantes = [], isLoading, error } = useGetFeatureRestQuery() as unknown as GetFeatureRestResponse; // Definindo o tipo esperado
     const dispatch = useDispatch();
 
     // Estado para controle do modal
@@ -57,7 +75,12 @@ const RestaurantProfile = () => {
     }
 
     if (error) {
-        return <h1>Erro ao carregar os dados</h1>;
+        return (
+            <div>
+                <h1>Erro ao carregar os dados</h1>
+                <button onClick={() => window.location.reload()}>Tentar Novamente</button>
+            </div>
+        );
     }
 
     // Verifique se restaurantes é um array
@@ -65,8 +88,12 @@ const RestaurantProfile = () => {
         return <h1>Dados de restaurantes não estão disponíveis</h1>;
     }
 
-    // Encontre o restaurante correspondente
-    const restaurant = restaurantes.find((r: Restaurante) => r.id === restaurantId);
+    // Encontre o restaurante correspondente usando filter
+    const filteredRestaurants = restaurantes.filter((r): r is Restaurante => {
+        return typeof r.id === "number" && r.id === restaurantId;
+    });
+    
+    const restaurant = filteredRestaurants[0]; // Acesse o primeiro restaurante encontrado
 
     // Verifique se o restaurante existe
     if (!restaurant) {
@@ -81,12 +108,20 @@ const RestaurantProfile = () => {
         return descricao.length > 39 ? descricao.slice(0, 150) + '...' : descricao;
     };
 
-    // Use o tipo do item do cardápio aqui
-    const selectedItem = restaurant.cardapio.find((carp: CardapioItem) => carp.id === modalUrl);
+    const selectedItem = restaurant.cardapio.find((carp: CardapioItem) => carp.id === modalUrl) as CardapioItem | undefined;
 
     const addToCard = () => {
         if (selectedItem) {
-            dispatch(add(selectedItem));
+            // Crie um novo objeto que inclua as propriedades necessárias
+            const itemToAdd: RestaurantersApi = {
+                id: selectedItem.id,
+                tipo: restaurant.tipo, // Obtém o tipo do restaurante
+                titulo: restaurant.titulo, // Obtém o título do restaurante
+                descricao: selectedItem.descricao, // Inclui a descrição do item selecionado
+                cardapio: [selectedItem], // Adiciona o item selecionado ao cardápio
+            };
+
+            dispatch(add(itemToAdd));
             dispatch(open());
         }
     }
@@ -132,10 +167,15 @@ const RestaurantProfile = () => {
                                 </button>
                             </ContentPop>
                             <ClosePop>
-                                <img onClick={() => {
-                                    setModalAberto(false);
-                                    setModalUrl(null); // Mudei de 0 para null
-                                }} src={Close} alt="Fechar" />
+                                <img 
+                                    onClick={() => {
+                                        setModalAberto(false);
+                                        setModalUrl(null);
+                                    }} 
+                                    src={Close} 
+                                    alt="Fechar" 
+                                    aria-label="Fechar modal" 
+                                />
                             </ClosePop>
                         </div>
                     </ContainerPop>
