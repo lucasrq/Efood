@@ -45,6 +45,7 @@ interface RestaurantersApi {
     titulo: string;
     descricao: string;
     avaliacao?: number;
+    destacado?:boolean;
     capa?: string;
     cardapio: CardapioItem[];
 }

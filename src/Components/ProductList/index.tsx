@@ -16,6 +16,7 @@ export interface RestaurantersApi {
     id: number;
     tipo: string;
     titulo: string;
+    destacado?: boolean;
     descricao: string; // Descrição como obrigatória
     avaliacao?: number; // Propriedade opcional
     capa?: string; // Propriedade opcional

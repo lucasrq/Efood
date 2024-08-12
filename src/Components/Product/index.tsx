@@ -3,6 +3,7 @@ import Tag from "../Tag"
 import {Restaurante,Botao,ContainerTag, Card, CardBorder, Titulo, Nota, Estrela,CardNota, Paragraph} from './style'
 import NotaEstrela from '../../../public/img/estrela.png'
 import { RestaurantersApi } from "../ProductList"
+
 export type Props = {
     restaurantes: RestaurantersApi[]; 
 }
@@ -13,6 +14,7 @@ const getDescript = (descricao: string) => {
         }
         return descricao;
     };
+
     return (
         <>
         {restaurantes.map((restaurante, index)=>(
