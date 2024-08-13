@@ -19,18 +19,20 @@ export const Restaurante = styled.img`
     max-height:350px;
 `
 export const ContainerTag = styled.div`
-    div:nth-child(1) {
+    >div{
         position:absolute;
-        left:188px;
+        left:368px;
         top:20px;
     }
-    div:nth-child(2) {
-        position:absolute;
-        left:360px;
-        top:20px;
-    }
+    
+`
 
-   
+export const ContainerTagDestaque = styled.div`
+    >div{
+        position:absolute;
+        right:28px;
+        top:0px;
+    }
 `
 export const Titulo = styled.h3`
     font-size:18px;

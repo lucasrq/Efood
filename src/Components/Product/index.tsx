@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom"
 import Tag from "../Tag"
-import {Restaurante,Botao,ContainerTag, Card, CardBorder, Titulo, Nota, Estrela,CardNota, Paragraph} from './style'
+import {Restaurante,Botao,ContainerTag, Card, CardBorder, Titulo, Nota, Estrela,CardNota, Paragraph, ContainerTagDestaque} from './style'
 import NotaEstrela from '../../../public/img/estrela.png'
 import { RestaurantersApi } from "../ProductList"
 
@@ -20,7 +20,12 @@ const getDescript = (descricao: string) => {
         {restaurantes.map((restaurante, index)=>(
             <Card key={index}>
         <ContainerTag>
-            <Tag size="Big">{restaurante.destacado}</Tag>
+            <ContainerTagDestaque>
+            {restaurante.destacado === true && (
+             <Tag size="Big">Destaque</Tag>
+            )}
+            </ContainerTagDestaque>
+        
             <Tag size="Big">{restaurante.tipo}</Tag>
         </ContainerTag>
         <Restaurante src={restaurante.capa}/>
