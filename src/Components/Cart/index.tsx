@@ -1,6 +1,7 @@
 import  { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import lixo from "../../../public/img/excluir.png";
+import { useNavigate } from "react-router-dom";
 import {
   Botao,
   Checkout,
@@ -29,9 +30,7 @@ const Cart = () => {
   const [purchese ,] = usePurchaseMutation()
   const { isOpen, items } = useSelector((state: RootReducer) => state.cart);
   const dispatch = useDispatch();
-  const handleRefresh = () => {
-    window.location.reload();
-  };
+ 
   const { data: restaurantes } = useGetFeatureRestQuery();
 
   const restaurantMap = Array.isArray(restaurantes)
@@ -43,7 +42,12 @@ const Cart = () => {
         {}
       )
     : {};
-    
+    const handleGoHome = () => {
+      navigate('/'); // Navega para a página inicial
+  };
+  
+  // Use o hook useNavigate para criar a função
+  const navigate = useNavigate();
 
   const restaurant = restaurantMap[restaurantId];
   const [itensSacola, setItensSacola] = useState(false);
@@ -403,7 +407,7 @@ const Cart = () => {
               onClick={() => {
                 setFinalizVisible(false);
                 dispatch(close());
-                handleRefresh()
+                handleGoHome()
               }}
             >
               Concluir
