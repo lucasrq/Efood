@@ -29,7 +29,9 @@ const Cart = () => {
   const [purchese ,] = usePurchaseMutation()
   const { isOpen, items } = useSelector((state: RootReducer) => state.cart);
   const dispatch = useDispatch();
-
+  const handleRefresh = () => {
+    window.location.reload();
+  };
   const { data: restaurantes } = useGetFeatureRestQuery();
 
   const restaurantMap = Array.isArray(restaurantes)
@@ -41,13 +43,14 @@ const Cart = () => {
         {}
       )
     : {};
+    
 
   const restaurant = restaurantMap[restaurantId];
   const [itensSacola, setItensSacola] = useState(false);
   const [isCheckoutVisible, setCheckoutVisible] = useState(false);
   const [isCheckoutCardVisible, setCheckoutCardVisible] = useState(false);
   const [isFinalizVisible, setFinalizVisible] = useState(false);
-
+      
   const form = useFormik({
     initialValues: {
       fullName: "",
@@ -160,7 +163,7 @@ const Cart = () => {
     setCheckoutCardVisible(false);
     setFinalizVisible(true);
   };
-
+  
   const getErrorMessage = (fieldName: string, massage?: string) => {
     const isTouched = fieldName in form.touched;
     const isInvalid = fieldName in form.errors;
@@ -168,6 +171,8 @@ const Cart = () => {
     if (isTouched && isInvalid) return massage;
     return "";
   };
+
+
   return (
     <DisplayNone className={isOpen ? "visivel" : ""}>
       <Overlay onClick={() => dispatch(close())}></Overlay>
@@ -289,7 +294,6 @@ const Cart = () => {
                 setCheckoutVisible(false);
                 setItensSacola(false);
                 setCheckoutVisible(false);
-                // activeConfirmed()
               }}
             >
               Voltar para o carrinho
@@ -376,7 +380,7 @@ const Cart = () => {
         </CheckoutCard>
 
         <Finalidy className={isFinalizVisible ? "" : "visivel"}>
-          <h3>Pedido realizado - {restaurant.id}</h3>
+          <h3>Pedido realizado - {'#' + Math.floor(Math.random() * 9200)}</h3>
           <p>
             Estamos felizes em informar que seu pedido já está em processo de
             preparação e, em breve, será entregue no endereço fornecido.
@@ -399,7 +403,7 @@ const Cart = () => {
               onClick={() => {
                 setFinalizVisible(false);
                 dispatch(close());
-
+                handleRefresh()
               }}
             >
               Concluir
