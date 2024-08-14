@@ -13,9 +13,9 @@ export const Container = styled.div`
     flex-direction:column;
     margin:0 auto;
     justify-content:space-between;
-    width:80%;
-    margin-top:30px ;
-    margin-bottom:40px;
+    width:58%;
+    padding-top:30px ;
+    padding-bottom:40px;
     color:#fff;
     font-family:Roboto;
     h1{

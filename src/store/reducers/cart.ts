@@ -5,12 +5,19 @@ import { RestaurantersApi } from '../../Components/ProductList'
 type CartState = {
     items: RestaurantersApi[],
     isOpen:boolean;
+    pagamento: boolean;
+    checkoutCard: boolean;
+    finaliz: boolean;
 }
 
 const initialState: CartState ={
     items: [],
     isOpen:false,
+    pagamento: true,
+    checkoutCard: true,
+    finaliz: true,
 }
+
 const cartSlice = createSlice({
     name: 'cart',
     initialState,
@@ -26,7 +33,7 @@ const cartSlice = createSlice({
         },
         close: (state) =>{
             state.isOpen = false
-        }
+        },
     }
 })
 

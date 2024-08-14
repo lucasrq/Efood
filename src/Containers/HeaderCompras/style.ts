@@ -24,6 +24,19 @@ export const Container = styled.header`
         font-family:Roboto;
         margin:0 auto; 
         font-size:18px;
+        padding-right:100px;
+   }
+   h1{
+        padding-top:80px;
+        color:#E66767;
+        font-size:36px;
+        line-height:42px;
+        font-weight:900;
+        width:45%;
+        text-align:center;
+        font-family:Roboto;
+        margin:0 auto; 
+        font-size:18px;
    }
 `
 

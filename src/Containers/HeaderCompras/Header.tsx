@@ -15,7 +15,7 @@ const PerfilHeader = () =>{
     return(
         <>
         <Container>
-            <h2>Restaurantes</h2>
+            <h1>Restaurantes</h1>
             <img src={Logo}/>
             <h2 onClick={OpenCart}>{items.length} Produto(s) no carrinho</h2>
             <ModalContainer  className={isOpen ? 'visivel': ''}> 

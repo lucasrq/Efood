@@ -7,6 +7,9 @@ export const ContainerPop = styled.aside`
     padding-right:8px;
     z-index:1;
     ul{
+        &.visivel{
+            display:none;
+        }
         display:flex;
         flex-direction:column;
         li{
@@ -71,6 +74,9 @@ export const Deli = styled.div`
     h3{
         color:#FFEBD9
     }
+    &.visivel{
+        display:none;
+    }
 `
 
 export const Botao = styled.button`
@@ -82,6 +88,9 @@ export const Botao = styled.button`
     height:24px;
     background-color:#FFEBD9;
     cursor:pointer;
+    &.visivel{
+        display:none;
+    }
 `
 export const DisplayNone = styled.div`
     position:fixed;
@@ -106,4 +115,141 @@ height:100%;
 background-color:#000;
 opacity:0.7;
 cursor: pointer;
+`
+
+export const Checkout  = styled.div`
+    color:#FFEBD9;
+    font-weight:bold;
+    margin:9px 0 0 20px;
+    font-size:14px;
+    font-family:Roboto;
+    text-align:left;
+    &.visivel{
+        display:none;
+    }
+    h3{
+        font-size:16px;
+        font-family:Roboto;
+        
+    }
+    form{
+        display:flex;
+        flex-direction:column;
+        
+        input{
+            border:none;
+            background-color:#FFEBD9;
+            height:32px;
+            max-width:344px;
+            width:100%;
+        }
+        label{
+            margin:10px 0;
+            
+        }
+     div{
+        display:flex;
+        margin:4px 0;
+
+        >div{
+            display:block;
+            margin-right:34px;
+
+            input{
+                width:155px;
+            }
+        }
+     }
+    }
+`
+
+export const ContanerBotao = styled.div`
+    display:flex;
+    flex-direction:column;
+    max-width:344px;
+    margin-top:24px;
+    button{
+        height:24px;
+        border:none;
+        text-decoration:none;
+        margin-bottom:8px;
+        background-color:#FFEBD9;
+        color:#E66767;
+        font-family:Roboto;
+        font-size:14px;
+        font-weight:bold;
+    }
+   
+`
+export const CheckoutCard  = styled.div`
+    color:#FFEBD9;
+    font-weight:bold;
+    margin:9px 0 0 20px;
+    font-size:14px;
+    font-family:Roboto;
+    text-align:left;
+    &.visivel{
+        display:none;
+    }
+    h3{
+        font-size:16px;
+        font-family:Roboto;
+        
+    }
+    form{
+        display:flex;
+        flex-direction:column;
+        
+        input{
+            border:none;
+            background-color:#FFEBD9;
+            height:32px;
+            max-width:344px;
+            width:100%;
+        }
+        label{
+            margin:10px 0;
+            
+        }
+     div{
+        display:flex;
+        margin:4px 0;
+
+        >div{
+            display:block;
+            margin-right:34px;
+
+            input{
+                width:155px;
+            }
+        }
+     }
+    }
+`
+
+export const Finalidy  = styled.div`
+    color:#FFEBD9;
+    font-weight:bold;
+    margin:9px 0 0 20px;
+    font-size:14px;
+    font-family:Roboto;
+    text-align:left;
+    &.visivel{
+        display:none;
+    }
+    h3{
+        font-size:16px;
+        font-family:Roboto;
+    }
+    
+    p{
+        font-size:14px;
+        line-height:22px;
+        margin-top:20px;
+    }
+
+
+    &.visivel{
+        display:none;
+    }
 `
