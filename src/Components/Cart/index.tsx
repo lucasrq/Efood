@@ -54,7 +54,7 @@ const Cart = () => {
   const [isCheckoutVisible, setCheckoutVisible] = useState(false);
   const [isCheckoutCardVisible, setCheckoutCardVisible] = useState(false);
   const [isFinalizVisible, setFinalizVisible] = useState(false);
-      
+  const [isValorSome , setIsValrSome] = useState(false)
   const form = useFormik({
     initialValues: {
       fullName: "",
@@ -154,18 +154,21 @@ const Cart = () => {
     setCheckoutVisible(false);
     setCheckoutCardVisible(false);
     setFinalizVisible(false);
+    setIsValrSome(true)
   };
 
   const handleContinueToPayment = () => {
     setCheckoutVisible(false);
     setCheckoutCardVisible(true);
     setFinalizVisible(false);
+    setIsValrSome(false)
   };
 
   const handleFinalizeOrder = () => {
     setCheckoutVisible(false);
     setCheckoutCardVisible(false);
     setFinalizVisible(true);
+    setIsValrSome(true)
   };
   
   const getErrorMessage = (fieldName: string, massage?: string) => {
@@ -222,9 +225,9 @@ const Cart = () => {
           })}
         </ul>
         <div>
-          <Deli className="">
+          <Deli  className={isValorSome ? 'visivel' : ''}>
             <h3>Valor total</h3>
-            <span>R$ {getTotalPrice()}</span>
+            <span >R$ {getTotalPrice()}</span>
           </Deli>
           <Botao
             className={itensSacola ? "visivel" : ""}
