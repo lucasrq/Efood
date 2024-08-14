@@ -176,7 +176,28 @@ const Cart = () => {
     return "";
   };
 
+  const FullNamesdsd =()=>{
+    const { fullName, endereco, city, CEP, numero } = form.values;
 
+    // Verifica se todos os campos obrigatórios estão preenchidos
+    if (!fullName || !endereco || !city || !CEP || !numero ) {
+        alert('Preencha todos os campos obrigatórios do formulário');
+        return; 
+    }
+    
+    handleContinueToPayment();
+  }
+
+  const FullFinaly = () =>{
+    const { fullNameCard, fullNumberCard, CVC, MesVencimento, AnoVencimento } = form.values;
+
+    if (!fullNameCard || !fullNumberCard || !CVC || !MesVencimento || ! AnoVencimento){
+      alert('Preencha todos os campos obrigatórios do formulário');
+        return; 
+    }
+    handleFinalizeOrder()
+  }
+  
   return (
     <DisplayNone className={isOpen ? "visivel" : ""}>
       <Overlay onClick={() => dispatch(close())}></Overlay>
@@ -290,7 +311,9 @@ const Cart = () => {
             <small>{getErrorMessage("complemento", form.errors.complemento)}</small>
           </form>
           <ContanerBotao>
-            <button type="submit" onClick={handleContinueToPayment} >
+            <button type="submit" onClick={()=>{
+              FullNamesdsd()
+            }} >
               Continuar com o pagamento
             </button>
             <button type="submit"
@@ -371,7 +394,9 @@ const Cart = () => {
             </div>
           </form>
           <ContanerBotao>
-            <button onClick={handleFinalizeOrder}>Finalizar pagamento</button>
+            <button onClick={()=>{
+              FullFinaly()
+            }}>Finalizar pagamento</button>
             <button
               onClick={() => {
                 setCheckoutVisible(true);
