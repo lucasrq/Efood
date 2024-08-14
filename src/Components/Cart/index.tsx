@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import  { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import lixo from "../../../public/img/excluir.png";
 import {
@@ -26,7 +26,7 @@ import * as yup from "yup";
 const Cart = () => {
   const { id } = useParams<{ id: string }>();
   const restaurantId = parseInt(id || "0"); 
-  const [purchese , { isLoading, isError, data }] = usePurchaseMutation()
+  const [purchese ,] = usePurchaseMutation()
   const { isOpen, items } = useSelector((state: RootReducer) => state.cart);
   const dispatch = useDispatch();
 
@@ -399,6 +399,7 @@ const Cart = () => {
               onClick={() => {
                 setFinalizVisible(false);
                 dispatch(close());
+
               }}
             >
               Concluir
