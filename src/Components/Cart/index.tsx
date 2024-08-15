@@ -272,6 +272,9 @@ function reloadPage() {
     }
   };
 
+
+
+
   return (
     <DisplayNone className={isOpen ? "visivel" : ""}>
       <Overlay onClick={() => dispatch(close())}></Overlay>
