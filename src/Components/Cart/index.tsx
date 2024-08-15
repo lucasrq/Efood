@@ -168,6 +168,11 @@ const navigate = useNavigate();
     dispatch(remove(id));
   };
 
+function reloadPage() {
+  window.location.reload();
+}
+
+
   const handleContinueToDelivery = () => {
     setCheckoutVisible(false);
     setCheckoutCardVisible(false);
@@ -528,6 +533,7 @@ const navigate = useNavigate();
                 setFinalizVisible(false);
                 dispatch(close());
                 handleGoHome()
+                reloadPage()
               }}
             >
               Concluir
