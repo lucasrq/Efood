@@ -1,9 +1,14 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { RestaurantersApi } from '../Components/ProductList';
+
 type Product = {
     id: number;
     price: number;
-}
+};
+
+type Resposta = {
+    orderId: string;
+};
 
 type PurchasePayload = {
     products: Product[];
@@ -14,8 +19,8 @@ type PurchasePayload = {
             city: string;
             zipCode: string;
             number: number;
-            complement?: string; // `?` indica que o campo é opcional
-        }
+            complement?: string;
+        };
     };
     payment: {
         card: {
@@ -25,29 +30,33 @@ type PurchasePayload = {
             expires?: {
                 month: number;
                 year: number;
-            }
-        }
+            };
+        };
     };
-}
+};
 
 const api = createApi({
     baseQuery: fetchBaseQuery({
-        baseUrl: 'https://fake-api-tau.vercel.app/api/efood'
+        baseUrl: 'https://fake-api-tau.vercel.app/api/efood',
     }),
     endpoints: (builder) => ({
         getFeatureRest: builder.query<RestaurantersApi, void>({
-            query: () => 'restaurantes'
+            query: () => 'restaurantes',
         }),
-        purchase: builder.mutation<any, PurchasePayload>({
+        purchase: builder.mutation<Resposta, PurchasePayload>({
             query: (body) => ({
                 url: 'checkout',
-                method:'POST',
-                body
-            })
-        })
-    })
+                method: 'POST',
+                body,
+                headers: {
+                    "Accept": "*/*",
+                    "User-Agent": "Thunder Client (https://www.thunderclient.com)",
+                    "Content-Type": "application/json",
+                },
+            }),
+        }),
+    }),
 });
-
 
 export const { useGetFeatureRestQuery, usePurchaseMutation } = api;
 

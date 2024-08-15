@@ -1,6 +1,7 @@
-import  { useState } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import lixo from "../../../public/img/excluir.png";
+import InputMask from "react-input-mask";
 import { useNavigate } from "react-router-dom";
 import {
   Botao,
@@ -26,11 +27,14 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 const Cart = () => {
   const { id } = useParams<{ id: string }>();
-  const restaurantId = parseInt(id || "0"); 
-  const [purchese ,] = usePurchaseMutation()
+  const restaurantId = parseInt(id || "0");
+  const [purchase, { data }] = usePurchaseMutation();
   const { isOpen, items } = useSelector((state: RootReducer) => state.cart);
   const dispatch = useDispatch();
- 
+  const handleGoHome = () => {
+    navigate('/'); // Navega para a página inicial
+};
+const navigate = useNavigate();
   const { data: restaurantes } = useGetFeatureRestQuery();
 
   const restaurantMap = Array.isArray(restaurantes)
@@ -42,19 +46,16 @@ const Cart = () => {
         {}
       )
     : {};
-    const handleGoHome = () => {
-      navigate('/'); // Navega para a página inicial
-  };
-  
+
   // Use o hook useNavigate para criar a função
-  const navigate = useNavigate();
 
   const restaurant = restaurantMap[restaurantId];
   const [itensSacola, setItensSacola] = useState(false);
   const [isCheckoutVisible, setCheckoutVisible] = useState(false);
   const [isCheckoutCardVisible, setCheckoutCardVisible] = useState(false);
   const [isFinalizVisible, setFinalizVisible] = useState(false);
-  const [isValorSome , setIsValrSome] = useState(false)
+  const [isValorSome, setIsValrSome] = useState(false);
+
   const form = useFormik({
     initialValues: {
       fullName: "",
@@ -72,61 +73,78 @@ const Cart = () => {
     validationSchema: yup.object({
       fullName: yup
         .string()
-        .min(5, "o nome precisa ter pelo menos 5 caracteres")
-        .required("obrigadorio"),
-        endereco: yup.string().required("obrigadorio"),
-      city: yup.string().required("obrigadorio"),
+        .min(5, "O nome precisa ter pelo menos 5 caracteres")
+        .required("Obrigatório"),
+      endereco: yup.string().required("Obrigatório"),
+      city: yup.string().required("Obrigatório"),
       CEP: yup
-        .number()
-        .min(6, "Cep Obrigadorio")
-        .required("obrigadorio"),
-      numero: yup.number().required("obrigadorio"),
-      complemento: yup.string().min(7, "invalido"),
+        .string()
+        .matches(/^\d{2}\.\d{3}-\d{3}$/, "CEP deve estar no formato 99.999-999")
+        .required("Obrigatório"),
+      numero: yup.number().required("Obrigatório"),
+      complemento: yup.string().min(7, "Inválido"),
       fullNameCard: yup
         .string()
-        .min(5, "o nome precisa ter pelo menos 5 caracteres")
-        .required("obrigadorio"),
+        .min(5, "O nome precisa ter pelo menos 5 caracteres")
+        .required("Obrigatório"),
       fullNumberCard: yup
-        .number()
-        .min(18, "Obrigadorio")
-        .required("obrigadorio")
-        .max(18),
-      CVC: yup.number().min(3, "Obrigadorio").required("obrigadorio").max(3),
+        .string()
+        .matches(
+          /^\d{4} \d{4} \d{4} \d{4}$/,
+          "NumberCard deve estar no formato 9999 9999 9999 9999"
+        )
+        .required("Obrigatório"),
+      CVC: yup
+      .string()
+      .matches(/^\d{3}$/, "CVV deve ter 3 dígitos")
+      .required("Obrigatório"),
       AnoVencimento: yup
-        .number()
-        .min(2, "Obrigadorio")
-        .required("obrigadorio")
-        .max(2),
+        .string()
+        .matches(/^\d{2}$/, "deve ter 2dígitos")
+        .required("Obrigatório"),
       MesVencimento: yup
-        .number()
-        .min(2, "Obrigadorio")
-        .required("obrigadorio")
-        .max(2),
+        .string()
+        .matches(/^\d{2}$/, "deve ter 2dígitos")
+        .required("Obrigatório"),
     }),
     onSubmit: (values) => {
-        purchese({
-            products: [], 
-            delivery: {
-                receiver: values.fullName,
-                address: { 
-                    city: values.city,
-                    zipCode: values.CEP,
-                    number: Number(values.numero),
-                    complement: values.complemento,
-                    description: values.endereco
-                }   
+      // Esta função é chamada quando o formulário é submetido.
+      purchase({
+        delivery: {
+          receiver: values.fullName,
+          address: {
+            description: values.endereco,
+            city: values.city,
+            zipCode: values.CEP,
+            number: Number(values.numero),
+            complement: values.complemento,
+          },
+        },
+        payment: {
+          card: {
+            name: values.fullNameCard,
+            number: values.fullNumberCard,
+            code: Number(values.CVC),
+            expires: {
+              month: Number(values.MesVencimento),
+              year: Number(values.AnoVencimento),
             },
-            payment: {
-                card: {
-                    name: values.fullNameCard,
-                    number: values.fullNumberCard,
-                    code: Number(values.CVC),
-                    expires: {
-                        month: Number(values.MesVencimento),
-                        year: Number(values.AnoVencimento)
-                    }
-                }
-            },
+          },
+        },
+        products: [
+          {
+            id: 1,
+            price: 100,
+          },
+        ],
+      })
+        .unwrap()
+        .then((response) => {
+          console.log("Compra realizada com sucesso:", response);
+          // Você pode adicionar lógica para redirecionar ou mostrar uma mensagem de sucesso aqui.
+        })
+        .catch((error) => {
+          console.error("Erro ao realizar a compra:", error);
         });
     },
   });
@@ -154,53 +172,103 @@ const Cart = () => {
     setCheckoutVisible(false);
     setCheckoutCardVisible(false);
     setFinalizVisible(false);
-    setIsValrSome(true)
+    setIsValrSome(true);
   };
 
   const handleContinueToPayment = () => {
     setCheckoutVisible(false);
     setCheckoutCardVisible(true);
     setFinalizVisible(false);
-    setIsValrSome(false)
+    setIsValrSome(false);
   };
 
   const handleFinalizeOrder = () => {
+    form.handleSubmit(); // Submete o formulário, acionando o onSubmit
     setCheckoutVisible(false);
     setCheckoutCardVisible(false);
     setFinalizVisible(true);
-    setIsValrSome(true)
+    setIsValrSome(true);
   };
-  
-  const getErrorMessage = (fieldName: string, massage?: string) => {
+
+  const getErrorMessage = (fieldName: string, message?: string) => {
     const isTouched = fieldName in form.touched;
     const isInvalid = fieldName in form.errors;
 
-    if (isTouched && isInvalid) return massage;
+    if (isTouched && isInvalid) return message;
     return "";
   };
 
-  const FullNamesdsd =()=>{
+  const FullNamesdsd = () => {
     const { fullName, endereco, city, CEP, numero } = form.values;
 
     // Verifica se todos os campos obrigatórios estão preenchidos
-    if (!fullName || !endereco || !city || !CEP || !numero ) {
-        alert('Preencha todos os campos obrigatórios do formulário');
-        return; 
+    if (!fullName || !endereco || !city || !CEP || !numero) {
+      alert("Preencha todos os campos obrigatórios do formulário");
+      return;
     }
-    
+
     handleContinueToPayment();
-  }
+  };
 
-  const FullFinaly = () =>{
-    const { fullNameCard, fullNumberCard, CVC, MesVencimento, AnoVencimento } = form.values;
+  const FullFinaly = async () => {
+    const { fullNameCard, fullNumberCard, CVC, MesVencimento, AnoVencimento } =
+      form.values;
 
-    if (!fullNameCard || !fullNumberCard || !CVC || !MesVencimento || ! AnoVencimento){
-      alert('Preencha todos os campos obrigatórios do formulário');
-        return; 
+    // Verifica se todos os campos obrigatórios estão preenchidos
+    if (
+      !fullNameCard ||
+      !fullNumberCard ||
+      !CVC ||
+      !MesVencimento ||
+      !AnoVencimento
+    ) {
+      alert("Preencha todos os campos obrigatórios do formulário");
+      return;
     }
-    handleFinalizeOrder()
-  }
-  
+
+    // Chama o método POST
+    try {
+      const response = await purchase({
+        delivery: {
+          receiver: form.values.fullName,
+          address: {
+            description: form.values.endereco,
+            city: form.values.city,
+            zipCode: form.values.CEP,
+            number: Number(form.values.numero),
+            complement: form.values.complemento,
+          },
+        },
+        payment: {
+          card: {
+            name: fullNameCard,
+            number: fullNumberCard,
+            code: Number(CVC),
+            expires: {
+              month: Number(MesVencimento),
+              year: Number(AnoVencimento),
+            },
+          },
+        },
+        products: [
+          {
+            id: 1, // Substitua pelo ID do produto real
+            price: 100, // Substitua pelo preço real
+          },
+        ],
+      }).unwrap();
+
+      // Se a requisição for bem-sucedida, exibe a resposta
+      console.log("Compra realizada com sucesso:", response);
+
+      // Atualiza a visibilidade do finalizador
+      setFinalizVisible(true);
+    } catch (error) {
+      console.error("Erro ao realizar a compra:", error);
+      alert("Houve um erro ao realizar a compra. Tente novamente.");
+    }
+  };
+
   return (
     <DisplayNone className={isOpen ? "visivel" : ""}>
       <Overlay onClick={() => dispatch(close())}></Overlay>
@@ -225,9 +293,9 @@ const Cart = () => {
           })}
         </ul>
         <div>
-          <Deli  className={isValorSome ? 'visivel' : ''}>
+          <Deli className={isValorSome ? "visivel" : ""}>
             <h3>Valor total</h3>
-            <span >R$ {getTotalPrice()}</span>
+            <span>R$ {getTotalPrice()}</span>
           </Deli>
           <Botao
             className={itensSacola ? "visivel" : ""}
@@ -235,13 +303,12 @@ const Cart = () => {
               handleContinueToDelivery();
               setCheckoutVisible(true);
               setItensSacola(true);
-            //   activePayment()
-
             }}
           >
             Continuar com a entrega
           </Botao>
         </div>
+
         <Checkout className={isCheckoutVisible ? "" : "visivel"}>
           <h3>Entrega</h3>
           <form onSubmit={form.handleSubmit}>
@@ -266,6 +333,7 @@ const Cart = () => {
               onBlur={form.handleBlur}
             />
             <small>{getErrorMessage("endereco", form.errors.endereco)}</small>
+
             <label htmlFor="city">Cidade</label>
             <input
               id="city"
@@ -276,21 +344,23 @@ const Cart = () => {
               onBlur={form.handleBlur}
             />
             <small>{getErrorMessage("city", form.errors.city)}</small>
+
             <div>
               <div>
                 <label htmlFor="CEP">CEP</label>
-                <input
+                <InputMask
                   id="CEP"
-                  type="number"
+                  type="text"
                   name="CEP"
                   value={form.values.CEP}
                   onChange={form.handleChange}
                   onBlur={form.handleBlur}
+                  mask="99.999-999"
                 />
                 <small>{getErrorMessage("CEP", form.errors.CEP)}</small>
               </div>
               <div>
-                <label htmlFor="numero">Numero</label>
+                <label htmlFor="numero">Número</label>
                 <input
                   id="numero"
                   type="number"
@@ -302,6 +372,7 @@ const Cart = () => {
                 <small>{getErrorMessage("numero", form.errors.numero)}</small>
               </div>
             </div>
+
             <label htmlFor="complemento">Complemento (opcional)</label>
             <input
               id="complemento"
@@ -311,19 +382,17 @@ const Cart = () => {
               onChange={form.handleChange}
               onBlur={form.handleBlur}
             />
-            <small>{getErrorMessage("complemento", form.errors.complemento)}</small>
+            <small>
+              {getErrorMessage("complemento", form.errors.complemento)}
+            </small>
           </form>
+
           <ContanerBotao>
-            <button type="submit" onClick={()=>{
-              FullNamesdsd()
-            }} >
-              Continuar com o pagamento
-            </button>
-            <button type="submit"
+            <button onClick={FullNamesdsd}>Continuar com o pagamento</button>
+            <button
               onClick={() => {
                 setCheckoutVisible(false);
-                setItensSacola(false);
-                setCheckoutVisible(false);
+                setItensSacola(true);
               }}
             >
               Voltar para o carrinho
@@ -342,68 +411,91 @@ const Cart = () => {
               onChange={form.handleChange}
               onBlur={form.handleBlur}
             />
-            <small>{getErrorMessage("fullNameCard", form.errors.fullNameCard)}</small>
+            <small>
+              {getErrorMessage("fullNameCard", form.errors.fullNameCard)}
+            </small>
+
             <div>
               <div>
-                <label htmlFor="fullNumberCard">Numero do cartao</label>
-                <input
+                <label htmlFor="fullNumberCard">Número do Cartão</label>
+                <InputMask
                   id="fullNumberCard"
-                  type="number"
+                  type="text"
                   name="fullNumberCard"
                   value={form.values.fullNumberCard}
                   onChange={form.handleChange}
                   onBlur={form.handleBlur}
+                  mask="9999 9999 9999 9999"
                 />
-                <small>{getErrorMessage("fullNumberCard", form.errors.fullNumberCard)}</small>
+                <small>
+                  {getErrorMessage(
+                    "fullNumberCard",
+                    form.errors.fullNumberCard
+                  )}
+                </small>
               </div>
               <div>
                 <label htmlFor="CVC">CVV</label>
-                <input
+                <InputMask
                   id="CVC"
-                  type="number"
+                  type="text"
                   name="CVC"
                   value={form.values.CVC}
                   onChange={form.handleChange}
                   onBlur={form.handleBlur}
+                  mask="999"
                 />
                 <small>{getErrorMessage("CVC", form.errors.CVC)}</small>
               </div>
             </div>
+
             <div>
               <div>
-                <label htmlFor="MesVencimento">Mes de vencimento</label>
-                <input
+                <label htmlFor="MesVencimento">Mês de Vencimento</label>
+                <InputMask
                   id="MesVencimento"
-                  type="number"
+                  type="text"
                   name="MesVencimento"
                   value={form.values.MesVencimento}
                   onChange={form.handleChange}
                   onBlur={form.handleBlur}
+                  mask="99"
                 />
-                <small>{getErrorMessage("MesVencimento", form.errors.MesVencimento)}</small>
+                <small>
+                  {getErrorMessage("MesVencimento", form.errors.MesVencimento)}
+                </small>
               </div>
               <div>
-                <label htmlFor="AnoVencimento">Ano de vencimento</label>
-                <input
+                <label htmlFor="AnoVencimento">Ano de Vencimento</label>
+                <InputMask
                   id="AnoVencimento"
-                  type="number"
+                  type="text"
                   name="AnoVencimento"
                   value={form.values.AnoVencimento}
                   onChange={form.handleChange}
                   onBlur={form.handleBlur}
+                  mask="99"
                 />
-                <small>{getErrorMessage("AnoVencimento", form.errors.AnoVencimento)}</small>
+                <small>
+                  {getErrorMessage("AnoVencimento", form.errors.AnoVencimento)}
+                </small>
               </div>
             </div>
           </form>
+
           <ContanerBotao>
-            <button onClick={()=>{
-              FullFinaly()
-            }}>Finalizar pagamento</button>
             <button
               onClick={() => {
-                setCheckoutVisible(true);
+                FullFinaly();
+                handleFinalizeOrder();
+              }}
+            >
+              Finalizar pagamento
+            </button>
+            <button
+              onClick={() => {
                 setCheckoutCardVisible(false);
+                setCheckoutVisible(true);
               }}
             >
               Voltar para a edição de endereço
@@ -412,7 +504,7 @@ const Cart = () => {
         </CheckoutCard>
 
         <Finalidy className={isFinalizVisible ? "" : "visivel"}>
-          <h3>Pedido realizado - {'#' + Math.floor(Math.random() * 9200)}</h3>
+          <h3>Pedido realizado - {data?.orderId}</h3>
           <p>
             Estamos felizes em informar que seu pedido já está em processo de
             preparação e, em breve, será entregue no endereço fornecido.
