@@ -32,7 +32,7 @@ const Cart = () => {
   const { isOpen, items } = useSelector((state: RootReducer) => state.cart);
   const dispatch = useDispatch();
   const handleGoHome = () => {
-    navigate('/'); // Navega para a página inicial
+    navigate('/');
 };
 const navigate = useNavigate();
   const { data: restaurantes } = useGetFeatureRestQuery();
@@ -47,7 +47,6 @@ const navigate = useNavigate();
       )
     : {};
 
-  // Use o hook useNavigate para criar a função
 
   const restaurant = restaurantMap[restaurantId];
   const [itensSacola, setItensSacola] = useState(false);
@@ -108,7 +107,6 @@ const navigate = useNavigate();
         .required("Obrigatório"),
     }),
     onSubmit: (values) => {
-      // Esta função é chamada quando o formulário é submetido.
       purchase({
         delivery: {
           receiver: values.fullName,
@@ -141,7 +139,7 @@ const navigate = useNavigate();
         .unwrap()
         .then((response) => {
           console.log("Compra realizada com sucesso:", response);
-          // Você pode adicionar lógica para redirecionar ou mostrar uma mensagem de sucesso aqui.
+          
         })
         .catch((error) => {
           console.error("Erro ao realizar a compra:", error);
@@ -188,7 +186,7 @@ function reloadPage() {
   };
 
   const handleFinalizeOrder = () => {
-    form.handleSubmit(); // Submete o formulário, acionando o onSubmit
+    form.handleSubmit(); 
     setCheckoutVisible(false);
     setCheckoutCardVisible(false);
     setFinalizVisible(true);
@@ -206,7 +204,7 @@ function reloadPage() {
   const FullNamesdsd = () => {
     const { fullName, endereco, city, CEP, numero } = form.values;
 
-    // Verifica se todos os campos obrigatórios estão preenchidos
+   
     if (!fullName || !endereco || !city || !CEP || !numero) {
       alert("Preencha todos os campos obrigatórios do formulário");
       return;
@@ -219,7 +217,7 @@ function reloadPage() {
     const { fullNameCard, fullNumberCard, CVC, MesVencimento, AnoVencimento } =
       form.values;
 
-    // Verifica se todos os campos obrigatórios estão preenchidos
+    
     if (
       !fullNameCard ||
       !fullNumberCard ||
@@ -231,7 +229,7 @@ function reloadPage() {
       return;
     }
 
-    // Chama o método POST
+   
     try {
       const response = await purchase({
         delivery: {
@@ -257,16 +255,16 @@ function reloadPage() {
         },
         products: [
           {
-            id: 1, // Substitua pelo ID do produto real
-            price: 100, // Substitua pelo preço real
+            id: 1, 
+            price: 100, 
           },
         ],
       }).unwrap();
 
-      // Se a requisição for bem-sucedida, exibe a resposta
+      
       console.log("Compra realizada com sucesso:", response);
 
-      // Atualiza a visibilidade do finalizador
+    
       setFinalizVisible(true);
     } catch (error) {
       console.error("Erro ao realizar a compra:", error);
